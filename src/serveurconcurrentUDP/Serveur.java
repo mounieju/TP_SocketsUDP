@@ -15,15 +15,17 @@ public class Serveur implements Runnable {
     
     public Serveur(String address, int port){
         try{
+            System.out.println("Starting server");
             this.serverIP = InetAddress.getByName(address);
             this.serverPort = port; 
             this.serverSocket = new DatagramSocket(serverPort);  
             this.buffer = new byte[512];
             this.serverPacket = new DatagramPacket(buffer,buffer.length);
             this.running = true;
-            
-            
+            this.run();
+
         }catch(Exception e){
+            System.out.println("Failed to start the server");
             e.printStackTrace();
         }
         
@@ -33,6 +35,8 @@ public class Serveur implements Runnable {
     
     @Override
     public void run(){
+        System.out.println("Server Running");
+
         while(isRunning()){
             try{
                 this.serverSocket.receive(this.serverPacket);
